@@ -29,7 +29,28 @@ export const submitScore = async (data) => {
     console.log("Mock Mode: Submitting score", data);
     return new Promise(resolve => {
       setTimeout(() => {
-        resolve({ data: { status: 'success', result: { score: data.answers.filter(a => a.answer.length > 0).length, isPass: true } } });
+        const reviewData = data.answers.map(a => {
+           const question = MOCK_QUESTIONS.find(q => q.id === a.id);
+           return {
+             id: a.id,
+             question: question ? question.text : 'Unknown',
+             userAnswer: a.answer,
+             correctAnswer: question ? question.answer : 'Unknown',
+             isCorrect: question ? question.answer === a.answer : false
+           };
+        });
+        const score = reviewData.filter(r => r.isCorrect).length;
+
+        resolve({
+          data: {
+            status: 'success',
+            result: {
+              score: score,
+              isPass: score >= 3, // Mock threshold
+              reviewData: reviewData
+            }
+          }
+        });
       }, 500);
     });
   }

@@ -2,14 +2,15 @@ import React, { useState } from 'react';
 import StartScreen from './components/StartScreen';
 import GameScreen from './components/GameScreen';
 import ResultScreen from './components/ResultScreen';
+import ReviewScreen from './components/ReviewScreen';
 import { getQuestions, submitScore } from './services/api';
 import './styles/pixel.css';
 
 function App() {
-  const [gameState, setGameState] = useState('START'); // START, PLAYING, LOADING, RESULT
+  const [gameState, setGameState] = useState('START'); // START, PLAYING, LOADING, RESULT, REVIEW
   const [userId, setUserId] = useState('');
   const [questions, setQuestions] = useState([]);
-  const [scoreData, setScoreData] = useState({ score: 0, isPass: false, total: 0 });
+  const [scoreData, setScoreData] = useState({ score: 0, isPass: false, total: 0, reviewData: [] });
   const [error, setError] = useState('');
 
   const handleStart = async (id) => {
@@ -36,8 +37,8 @@ function App() {
     try {
       const response = await submitScore({ userId, answers });
       if (response.data.status === 'success') {
-        const { score, isPass } = response.data.result;
-        setScoreData({ score, isPass, total: questions.length });
+        const { score, isPass, reviewData } = response.data.result;
+        setScoreData({ score, isPass, total: questions.length, reviewData });
         setGameState('RESULT');
       } else {
         setError('Failed to submit score.');
@@ -51,6 +52,10 @@ function App() {
     setGameState('START');
     setQuestions([]);
     setError('');
+  };
+
+  const handleReview = () => {
+    setGameState('REVIEW');
   };
 
   return (
@@ -88,6 +93,14 @@ function App() {
           score={scoreData.score}
           isPass={scoreData.isPass}
           total={scoreData.total}
+          onRestart={handleRestart}
+          onReview={handleReview}
+        />
+      )}
+
+      {gameState === 'REVIEW' && (
+        <ReviewScreen
+          reviewData={scoreData.reviewData}
           onRestart={handleRestart}
         />
       )}

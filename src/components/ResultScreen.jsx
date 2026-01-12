@@ -1,7 +1,7 @@
 import React from 'react';
 import '../styles/pixel.css';
 
-const ResultScreen = ({ score, isPass, onRestart, total }) => {
+const ResultScreen = ({ score, isPass, onRestart, onReview, total }) => {
   return (
     <div className="pixel-card">
       <h1 className="pixel-title" style={{color: isPass ? 'var(--pixel-pass)' : 'var(--pixel-fail)'}}>
@@ -19,7 +19,10 @@ const ResultScreen = ({ score, isPass, onRestart, total }) => {
         SCORE: {score} / {total}
       </p>
 
-      <button onClick={onRestart}>TRY AGAIN</button>
+      <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
+        <button onClick={onRestart}>TRY AGAIN</button>
+        <button onClick={onReview} style={{ backgroundColor: '#555' }}>REVIEW</button>
+      </div>
     </div>
   );
 };

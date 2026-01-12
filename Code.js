@@ -111,20 +111,43 @@ function submitScore(payload) {
   var qSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('題目');
   var aSheet = SpreadsheetApp.getActiveSpreadsheet().getSheetByName('回答');
 
-  // 1. Calculate Score
+  // 1. Calculate Score & Prepare Review Data
   // Get all answers from Question Sheet
   var qLastRow = qSheet.getLastRow();
-  var qData = qSheet.getRange(2, 1, qLastRow - 1, 7).getValues(); // [id, ..., ans] is index 0 and 6
-  var answerMap = {};
+  var qData = qSheet.getRange(2, 1, qLastRow - 1, 7).getValues(); // [id, ..., ans]
+  var questionMap = {};
   qData.forEach(function(row) {
-    answerMap[row[0]] = row[6]; // ID -> Answer
+    questionMap[row[0]] = {
+      text: row[1],
+      correctAnswer: row[6]
+    };
   });
 
   var score = 0;
+  var reviewData = [];
+
   userAnswers.forEach(function(ansIdx) {
-     if (answerMap[ansIdx.id] == ansIdx.answer) {
-       score++;
+     var q = questionMap[ansIdx.id];
+     var isCorrect = false;
+     var correctAns = "";
+     var qText = "Unknown Question";
+
+     if (q) {
+       qText = q.text;
+       correctAns = q.correctAnswer;
+       if (String(q.correctAnswer) === String(ansIdx.answer)) {
+         score++;
+         isCorrect = true;
+       }
      }
+
+     reviewData.push({
+       id: ansIdx.id,
+       question: qText,
+       userAnswer: ansIdx.answer,
+       correctAnswer: correctAns,
+       isCorrect: isCorrect
+     });
   });
 
   // 2. Record to Answer Sheet
@@ -210,5 +233,9 @@ function submitScore(payload) {
     ]]);
   }
 
-  return { score: score, isPass: isPass };
+  return {
+    score: score,
+    isPass: isPass,
+    reviewData: reviewData
+  };
 }
