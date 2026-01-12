@@ -5,7 +5,7 @@ const ResultScreen = ({ score, isPass, onRestart, onReview, total }) => {
   return (
     <div className="pixel-card">
       <h1 className="pixel-title" style={{color: isPass ? 'var(--pixel-pass)' : 'var(--pixel-fail)'}}>
-        {isPass ? 'YOU WIN!' : 'GAME OVER'}
+        {isPass ? '過關!' : '你好爛!'}
       </h1>
 
       <div className="pixel-avatar" style={{
@@ -16,12 +16,12 @@ const ResultScreen = ({ score, isPass, onRestart, onReview, total }) => {
       }}></div>
 
       <p style={{fontSize: '1.5rem', margin: '2rem 0'}}>
-        SCORE: {score} / {total}
+        分數: {score} / {total}
       </p>
 
       <div style={{ display: 'flex', flexDirection: 'column', gap: '1rem' }}>
-        <button onClick={onRestart}>TRY AGAIN</button>
-        <button onClick={onReview} style={{ backgroundColor: '#555' }}>REVIEW</button>
+        <button onClick={onRestart}>再來一次</button>
+        <button onClick={onReview} style={{ backgroundColor: '#555' }}>查看答案</button>
       </div>
     </div>
   );

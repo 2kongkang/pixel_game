@@ -28,7 +28,7 @@ const GameScreen = ({ questions, onEnd }) => {
   return (
     <div className="pixel-card">
       <div className="pixel-header" style={{display: 'flex', justifyContent: 'space-between', marginBottom: '1rem'}}>
-        <span>LVL {currentIndex + 1}/{questions.length}</span>
+        <span>題目 {currentIndex + 1}/{questions.length}</span>
       </div>
 
       <img

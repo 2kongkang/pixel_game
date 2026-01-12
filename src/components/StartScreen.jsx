@@ -13,7 +13,7 @@ const StartScreen = ({ onStart }) => {
 
   return (
     <div className="pixel-card">
-      <h1 className="pixel-title">PIXEL QUIZ</h1>
+      <h1 className="pixel-title">快問快答</h1>
       <div className="pixel-avatar" style={{backgroundImage: 'url(https://api.dicebear.com/9.x/pixel-art/svg?seed=game_logo)', backgroundSize: 'cover'}}></div>
       <form onSubmit={handleSubmit}>
         <input
@@ -23,7 +23,7 @@ const StartScreen = ({ onStart }) => {
           onChange={(e) => setId(e.target.value)}
           autoFocus
         />
-        <button type="submit">INSERT COIN (START)</button>
+        <button type="submit">開始</button>
       </form>
     </div>
   );

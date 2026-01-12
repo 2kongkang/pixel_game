@@ -30,11 +30,11 @@ const ReviewScreen = ({ reviewData, onRestart }) => {
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: '0.5rem', fontSize: '0.9rem' }}>
               <div style={{ color: item.isCorrect ? 'var(--pixel-pass)' : 'var(--pixel-text)' }}>
-                Your Answer: {item.userAnswer}
+                你的答案: {item.userAnswer}
               </div>
               {!item.isCorrect && (
                 <div style={{ color: 'var(--pixel-accent)' }}>
-                  Correct Answer: {item.correctAnswer}
+                  正確答案: {item.correctAnswer}
                 </div>
               )}
             </div>
@@ -43,7 +43,7 @@ const ReviewScreen = ({ reviewData, onRestart }) => {
       </div>
 
       <div style={{ textAlign: 'center', marginTop: '2rem' }}>
-        <button onClick={onRestart}>BACK TO MENU</button>
+        <button onClick={onRestart}>回到主選單</button>
       </div>
     </div>
   );
